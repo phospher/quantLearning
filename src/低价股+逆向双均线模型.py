@@ -1,6 +1,6 @@
 from jqdata import *
 
-        # 初始化函数，设定基准、参数等
+ # 初始化函数，设定基准、参数等
 def initialize(context):
     # # 选取股票：选取市值表valuation.code的股票代码
     df = get_fundamentals(query(
