@@ -46,6 +46,8 @@ def before_trading_start(context):
 # 取得股票某个区间内的所有收盘价（用于取前20日和当前收盘价）
 # 输入：stock, interval
 # 输出：h['close'].values[0] , h['close'].values[-1]
+
+
 def getStockPrice(stock, interval):  # 输入stock证券名，interval期
     h = attribute_history(stock, interval, unit='1d',
                           fields=('close'), skip_paused=True)
@@ -54,6 +56,8 @@ def getStockPrice(stock, interval):  # 输入stock证券名，interval期
 # 计算得到信号（这个信号是一个string）
 # 输入：context
 # 输出：string: sell_the_stocks || ETF50 || ETF300 || ETF500
+
+
 def get_signal(context):
     # 收盘价，通过getStockPrice获取
     # Yesterday50是昨日收盘价，interval50是interval周期前的收盘价
@@ -103,6 +107,8 @@ def get_signal(context):
 # 卖出指令，定义清仓函数：sell_the_stocks
 # 输入：context
 # 输出：none
+
+
 def sell_the_stocks(context):
     for i in context.portfolio.positions.keys():
         # context.portfolio.positions是一个dict
@@ -112,6 +118,8 @@ def sell_the_stocks(context):
                 order_target_value(i, 0))
 
 # 买入股票，定义函数：buy_the_stocks
+
+
 def buy_the_stocks(context, signal):
     return (log.info("Buying %s" % signal),
             order_value(eval('g.%s' % signal), context.portfolio.available_cash))
@@ -136,6 +144,8 @@ def handle_data(context, data):
             buy_the_stocks(context, signal)
 
 # 每日收盘后（输出目前的资金状况）
+
+
 def after_trading_end(context):
     log.info(context.portfolio.available_cash +
              context.portfolio.positions_value)
